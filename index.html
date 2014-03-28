@@ -18,13 +18,114 @@
     <![endif]-->
   </head>
   <body>
-    <section class="container">
-      <div class="row" id="titlebar">
-        
+    <div class="row" id="titlebar">
+      <div class="col-xs-6 col-xs-offset-3" id="title">
+        IEEE Networking Dinner Planner
       </div>
-    </section>
+      <div class="col-xs-3" id="options">
+        <ul id="options-list">
+          <li class="option-item"><span class="glyphicon glyphicon-wrench"></span></li>
+          <li class="option-item"><span class="glyphicon glyphicon-question-sign"></span></li>
+          <li class="option-item upload-button"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</li>
+        </ul>
+      </div>
+    </div>
     <section id="settings">
       Settings go here
+    </section>
+
+    <section id="input">
+      <div class="row">
+        <div class="col-sm-5 col-sm-offset-1" id="student-selector">
+          <select name="students" multiple id="student-selector-input" class="form-control"></select>
+          <button type="button" class="btn btn-primary add-button">Add New</button>
+        </div>
+        <div class="col-sm-5" id="company-selector">
+          <select name="companies" multiple id="company-selector-input" class="form-control"></select>
+          <button type="button" class="btn btn-primary add-button">Add New</button>
+        </div>
+      </div>
+      <div class="row" id="inputter">
+
+
+        <!-- Student Input -->
+        <div id="student-edit" class="col-xs-12">
+
+          <form role="form" id="student-form">
+            <div class="form-group">
+              <label for="student-name">Full name</label>
+              <input type="text" class="form-control" id="student-name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+              <label for="phone-number">Phone Number</label>
+              <input type="tel" class="form-control" id="phone-number" placeholder="Enter phone number">
+            </div>
+            <select class="form-control" name="class">
+              <option>Freshman</option>
+              <option>Sophomore</option>
+              <option>Junior</option>
+              <option>Senior</option>
+            </select>
+            <select class="form-control" name="major">
+              <option>EE</option>
+              <option>CptE</option>
+              <option>CptS</option>
+              <option>CE</option>
+              <option>ME</option>
+            </select>
+            <select class="form-control" name="food">
+              <option>Beef</option>
+              <option>Chicken</option>
+              <option>Vegetarian</option>
+            </select>
+            <select class="form-control" name="student-choice">
+              <!-- dynamically generated -->
+            </select>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>          
+        </div>
+
+        <!-- Company Edit -->
+        <div id="company-edit" class="col-xs-12">
+          <form role="form" id="student-form">
+            <div class="form-group">
+              <label for="name">Company Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+              <label for="number">Number of Attendees</label>
+              <input type="number" class="form-control" id="number" placeholder="Enter phone number">
+            </div>
+            <div class="form-group">
+              <label for="company-names">Names (comma separated)</label>
+              <input type="text" class="form-control" id="company-names" placeholder="John Doe, Jane Smith, ...">
+            </div>
+
+            <label for="company-major">Preferred Major</label>
+            <select class="form-control" name="major" id="company-major">
+              <option>EE</option>
+              <option>CptE</option>
+              <option>CptS</option>
+              <option>CE</option>
+              <option>ME</option>
+            </select>
+
+            <label for="company-food">Food Preference</label>
+            <select class="form-control" name="company-food" id="company-food">
+              <option>Beef</option>
+              <option>Chicken</option>
+              <option>Vegetarian</option>
+            </select>
+
+            <label for="company-type">Recruiting Interest</label>
+            <select class="form-control" name="company-type" id="company-type">
+              <option>Internship</option>
+              <option>Full Time</option>
+            </select>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>          
+        </div>
+      </div>
     </section>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

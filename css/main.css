@@ -1,0 +1,46 @@
+#titlebar {
+	margin: 0;
+	padding: 15px;
+	background-color: #193441;
+	color: white;
+	font: 24px "open sans";
+	text-align: center;
+}
+#options-list {
+    float: right;
+    list-style-type: none;
+    -webkit-padding-start: 0;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+}
+li.option-item {
+    display: inline;
+    padding-left: 15px;
+}
+#options-list > li:nth-child(1) {
+    padding-left: 0;
+}
+
+#settings {
+	margin: 15px;
+	padding: 15px;
+	background-color: #91AA9D;
+	color: white;
+}
+
+#company-selector-input, #student-selector-input{
+	border-radius: 0;
+}
+
+.add-button{
+	width: 100%;
+	border-radius: 0;
+}
+
+#student-form {
+	margin: 15px;
+}
+
+#student-form select {
+	margin-bottom: 15px;
+}
