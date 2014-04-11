@@ -9,6 +9,8 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-2.1.0.min.js"></script>
+    <script src="js/app.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,11 +40,11 @@
       <div class="row">
         <div class="col-sm-5 col-sm-offset-1" id="student-selector">
           <select name="students" multiple id="student-selector-input" class="form-control"></select>
-          <button type="button" class="btn btn-primary add-button">Add New</button>
+          <button type="button" id="student-add" class="btn btn-primary add-button">Add New</button>
         </div>
         <div class="col-sm-5" id="company-selector">
           <select name="companies" multiple id="company-selector-input" class="form-control"></select>
-          <button type="button" class="btn btn-primary add-button">Add New</button>
+          <button type="button" id="company-add" class="btn btn-primary add-button">Add New</button>
         </div>
       </div>
       <div class="row" id="inputter">
@@ -61,40 +63,40 @@
               <input type="tel" class="form-control" id="phone-number" placeholder="Enter phone number">
             </div>
             <select class="form-control" name="class">
-              <option>Freshman</option>
-              <option>Sophomore</option>
-              <option>Junior</option>
-              <option>Senior</option>
+              <option value="Freshman">Freshman</option>
+              <option value="Sophomore">Sophomore</option>
+              <option value="Junior">Junior</option>
+              <option value="Senior">Senior</option>
             </select>
             <select class="form-control" name="major">
-              <option>EE</option>
-              <option>CptE</option>
-              <option>CptS</option>
-              <option>CE</option>
-              <option>ME</option>
+              <option value="EE">EE</option>
+              <option value="CptE">CptE</option>
+              <option value="CptS">CptS</option>
+              <option value="CE">CE</option>
+              <option value="ME">ME</option>
             </select>
             <select class="form-control" name="food">
-              <option>Beef</option>
-              <option>Chicken</option>
-              <option>Vegetarian</option>
+              <option value="Beef">Beef</option>
+              <option value="Chicken">Chicken</option>
+              <option value="Vegetarian">Vegetarian</option>
             </select>
             <select class="form-control" name="student-choice">
               <!-- dynamically generated -->
             </select>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default" id="student-submit">Submit</button>
           </form>          
         </div>
 
         <!-- Company Edit -->
         <div id="company-edit" class="col-xs-12">
-          <form role="form" id="student-form">
+          <form role="form" id="company-form">
             <div class="form-group">
-              <label for="name">Company Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter name">
+              <label for="company-name">Company Name</label>
+              <input type="text" class="form-control" id="company-name" placeholder="Enter name">
             </div>
             <div class="form-group">
-              <label for="number">Number of Attendees</label>
-              <input type="number" class="form-control" id="number" placeholder="Enter phone number">
+              <label for="company-number">Number of Attendees</label>
+              <input type="number" class="form-control" id="company-number" placeholder="Enter phone number">
             </div>
             <div class="form-group">
               <label for="company-names">Names (comma separated)</label>
@@ -102,7 +104,7 @@
             </div>
 
             <label for="company-major">Preferred Major</label>
-            <select class="form-control" name="major" id="company-major">
+            <select class="form-control" name="company-major" id="company-major">
               <option>EE</option>
               <option>CptE</option>
               <option>CptS</option>
@@ -122,7 +124,7 @@
               <option>Internship</option>
               <option>Full Time</option>
             </select>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default" id="company-submit">Submit</button>
           </form>          
         </div>
       </div>
