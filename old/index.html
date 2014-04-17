@@ -10,7 +10,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-2.1.0.min.js"></script>
-    <!-- <script src="js/app.js"></script> -->
+    <script src="js/app.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,7 +28,7 @@
         <ul id="options-list">
           <li class="option-item"><span class="glyphicon glyphicon-wrench"></span></li>
           <li class="option-item"><span class="glyphicon glyphicon-question-sign"></span></li>
-          <li class="option-item upload-button"><span class="glyphicon glyphicon-cloud-upload"></span>Upload</li>
+          <li class="option-item upload-button"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</li>
         </ul>
       </div>
     </div>
@@ -38,19 +38,19 @@
 
     <section id="input" ng-controller="MainCtrl">
       <div class="row">
-        <div class="col-sm-5 col-sm-offset-1" id="student-selector" ng-click="editStudent()">
-          <select name="students-select" ng-model="currentstudent" ng-options="student as student.name for student in students" id="student-selector-input" class="form-control" size="10" ng-click="editStudent()"></select>
+        <div class="col-sm-5 col-sm-offset-1" id="student-selector">
+          <select name="students" ng-model="currentstudent" ng-options="students" multiple id="student-selector-input" class="form-control"></select>
           <button type="button" id="student-add" class="btn btn-primary add-button" ng-click="addStudent()">Add New</button>
         </div>
-        <div class="col-sm-5" id="company-selector" ng-click="editCompany()">
-          <select name="companies-select" ng-model="currentcompany" ng-options="company as company.name for company in companies" id="company-selector-input" class="form-control" size="10" ng-click="editCompany()"></select>
+        <div class="col-sm-5" id="company-selector">
+          <select name="companies" ng-model="currentcompany" ng-options="companies" multiple id="company-selector-input" class="form-control"></select>
           <button type="button" id="company-add" class="btn btn-primary add-button" ng-click="addCompany()">Add New</button>
         </div>
       </div>
 
       <div class="row" id="inputter">
 
-        <!-- Student Input   -->
+        <!-- Student Input -->
         <div id="student-edit" class="col-xs-12" ng-show="edit=='student'">
           <form role="form" id="student-form">
             <div class="form-group">
@@ -61,20 +61,20 @@
               <label for="phone-number">Phone Number</label>
               <input type="tel" class="form-control" id="phone-number" placeholder="Enter phone number" ng-model="currentstudent.phone_number">
             </div>
-            <select class="form-control" name="class" ng-model="currentstudent.grade" ng-options="grade for grade in grades">
+            <select class="form-control" name="class" ng-model="currentstudent.grade" ng-options="grade as label for grade in grades">
             </select>
-            <select class="form-control" name="major" ng-model="currentstudent.major" ng-options="major for major in majors">
+            <select class="form-control" name="major" ng-model="currentstudent.major" ng-options="major as label for major in majors">
             </select>
-            <select class="form-control" name="food" ng-model="currentstudent.food" ng-options="food for food in foodoptions">
+            <select class="form-control" name="food" ng-model="currentstudent.food" ng-options="food as label for food in foodoptions">
             </select>
-            <select class="form-control" name="student-choice" ng-model="currentstudent.company" ng-options="company.name for company in companies">
+            <select class="form-control" name="student-choice" ng-model="currentstudent.company" ng-options="company.name as label for company in companies">
             </select>
-            <button type="button" class="btn btn-default" id="student-submit" ng-click="deleteStudent()">Submit</button>
+            <button type="button" class="btn btn-default" id="student-submit">Submit</button>
           </form>
         </div>
 
-        <!-- Company Edit  -->
-        <div id="company-edit" class="col-xs-12" ng-show="edit=='company'">
+        <!-- Company Edit -->
+        <div id="company-edit" class="col-xs-12" ng-show="edit='company'">
           <form role="form" id="company-form">
             <div class="form-group">
               <label for="company-name">Company Name</label>
@@ -90,15 +90,15 @@
             </div>
 
             <label for="company-major">Preferred Major</label>
-            <select class="form-control" name="company-major" id="company-major" ng-model="currentcompany.major" ng-options="major for major in majors">
+            <select class="form-control" name="company-major" id="company-major" ng-model="currentcompany.major" ng-options="major as label for major in majors">
             </select>
 
             <label for="company-food">Food Preference</label>
-            <select class="form-control" name="company-food" id="company-food" ng-model="currentcompany.food" ng-options="food for food in foodoptions">
+            <select class="form-control" name="company-food" id="company-food" ng-model="currentcompany.food" ng-options="food as label for food in foodoptions">
             </select>
 
             <label for="company-type">Recruiting Interest</label>
-            <select class="form-control" name="company-type" id="company-type" ng-model="currentcompany.recruiting" ng-options="type for type in recruiting">
+            <select class="form-control" name="company-type" id="company-type" ng-model="currentcompany.recruiting" ng-options="type as label for type in recruiting">
             </select>
             <button type="button" class="btn btn-default" id="company-submit">Submit</button>
           </form>          
@@ -107,12 +107,14 @@
     </section>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/angular.min.js"></script>
-    <script src="js/angular-route.min.js"></script>
-    <!-- <script src="js/services.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
     <script src="js/controllers.js"></script>
-    <!-- <script src="js/filters.js"></script> -->
-    <!-- <script src="js/directives.js"></script> -->
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

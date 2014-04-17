@@ -1,3 +1,15 @@
+'use strict';
+
+// Declare app level module which depends on filters, and services
+angular.module('ieee', [
+  'ngRoute',
+  'ieee.filters',
+  'ieee.services',
+  'ieee.directives',
+  'ieee.controllers'
+]);
+
+
 settings = {
 	// all user inputted
 	weights: {
@@ -122,10 +134,10 @@ $(document).ready(function() {
 
 				//update the parent select thing
 				htmlstr = '';
-				for (i = 0; i < companies.length; i++){
-					htmlstr += "<option class='company' value='" + i.toString() + "'>" + companies[i].name + "</option>";
+				for (i = 0; i < students.length; i++){
+					htmlstr += "<option class='student' value='" + i.toString() + "'>" + students[i].name + "</option>";
 				}
-				$("select[name=student-choice]").html(htmlstr);
+				$("#student-selector-input").html(htmlstr);
 			});
 
 		});

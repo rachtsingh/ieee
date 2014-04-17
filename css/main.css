@@ -1,9 +1,9 @@
 #titlebar {
 	margin: 0;
 	padding: 15px;
-	background-color: #193441;
+	background-color: #55ADD8;
 	color: white;
-	font: 24px "open sans";
+	font: 24px "Segoe UI Light";
 	text-align: center;
 }
 #options-list {
@@ -24,7 +24,7 @@ li.option-item {
 #settings {
 	margin: 15px;
 	padding: 15px;
-	background-color: #91AA9D;
+	background-color: #3BCE81;
 	color: white;
 }
 
