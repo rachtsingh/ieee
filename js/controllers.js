@@ -6,9 +6,23 @@ angular.module('ieee', [
   'ieee.controllers'
 ]);
 
-// el = angular.element($("#input"))
-// $scope = el.scope();
-//
+// Utility for the sliders
+$.fn.addSliderSegments = function (amount, orientation) {    
+  return this.each(function () {
+    if (orientation == "vertical") {
+      var output = ''
+        , i;
+      for (i = 1; i <= amount - 2; i++) {
+        output += '<div class="ui-slider-segment" style="top:' + 100 / (amount - 1) * i + '%;"></div>';
+      };
+      $(this).prepend(output);
+    } else {
+      var segmentGap = 100 / (amount - 1) + "%"
+        , segment = '<div class="ui-slider-segment" style="margin-left: ' + segmentGap + ';"></div>';
+      $(this).prepend(segment.repeat(amount - 2));
+    }
+  });
+};
 
 
 /* Controllers */
@@ -35,21 +49,22 @@ angular.module('ieee.controllers', [])
 			this.recruiting = "";
 		}
 
-// for testing only
-		$scope.model = {
-	        selectedCategory: {},
-	        categories: [
-	            {title: "Cat1"},
-	            {title: "Cat2"},
-	            {title: "Joseph"}
-	        ]
-	    }
-	    //init
-	    $scope.model.selectedCategory = $scope.model.categories[0];
-
-
-
-
+		// Various utility variables
+		$scope.settings_shown = false;
+		$scope.toggleSettings = function(){
+			console.log("Woring?");
+			$scope.settings_shown = !($scope.settings_shown);
+		}
+		$scope.settings = {
+			// all user inputted
+			weights: {
+				grade : [0, 0, 0, 0, 0],
+				major : 0,
+				company : 0, // the choice of the student matches
+				fulltime : 0, /* Bonus given for seniors and grads matching full times*/
+				intern : 0 /* Bonus given for sophomores and juniors matching interns*/
+			}
+		}
 
 		$scope.edit = false; // should be either "student", "company", or false
 		// used by the ng-show to show the relevant editing thing
@@ -58,19 +73,7 @@ angular.module('ieee.controllers', [])
 
 		$scope.currentstudent = $scope.students[0];
 		$scope.currentcompany = $scope.companies[0];
-		// when the currently selected item changes, we need to update $scope.edit
-		// $scope.$watch(
-		// 	"currentstudent",
-		// 	function(newValue) {
-		// 		$scope.edit = "student";
-		// 	}
-		// );
-		// $scope.$watch(
-		// 	"currentcompany",
-		// 	function(newValue) {
-		// 		$scope.edit = "company";
-		// 	}
-		// );
+		
 		$scope.editStudent = function(){
 			$scope.edit = 'student';
 		}
@@ -123,6 +126,11 @@ angular.module('ieee.controllers', [])
 			"Internship",
 			"Full Time"
 		];
+
+		$scope.calculate = function(){
+			$scope.edit = true;
+			console.log("Calculating!");
+		}
 
 		// Still need to put in the saving student information (basically update)
 		// the students list with the currentstudent value
