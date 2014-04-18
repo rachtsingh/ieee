@@ -142,11 +142,11 @@
             </div>
             <div class="form-group">
               <label for="company-number">Number of Attendees</label>
-              <input type="number" class="form-control" id="company-number" placeholder="Enter phone number">
+              <input type="number" class="form-control" id="company-number" placeholder="Enter number of attendees" ng-model="currentcompany.number">
             </div>
             <div class="form-group">
               <label for="company-names">Names (comma separated)</label>
-              <input type="text" class="form-control" id="company-names" placeholder="John Doe, Jane Smith, ...">
+              <input type="text" class="form-control" id="company-names" placeholder="John Doe, Jane Smith, ..." ng-model="currentcompany.reps">
             </div>
 
             <label for="company-major">Preferred Major</label>
@@ -183,10 +183,23 @@
       <div class="row" id="submit-row" ng-show="edit != false">
           <button class="btn btn-success col-xs-12" id="submitbutton" ng-click="calculate()">Calculate!</button>
       </div>
+      <div class="answer" id="displayanswers" ng-show="answered">
+        <h5>Assignment 1</h5>
+        <ul class="student-choice-list">
+          <li ng-repeat="student in students" class="student-choice">
+            <span class="studentname">{{student.name}}</span>
+            <span class="companyname">{{student.finalcompany.name}}</span>
+          
+          </li>
+        </ul>
+          
+
+      </div>
     </section>
     
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/moonshine.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.min.js"></script>
     <script src="js/controllers.js"></script>

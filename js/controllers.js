@@ -42,7 +42,7 @@ angular.module('ieee.controllers', [])
 		}
 		function Company(name){
 			this.name = name || 'New Company';
-			this.number = 0;
+			this.number = 1;
 			this.reps = ''; // Array of objects with attribute name and food
 			this.major = '';
 			this.food = '';
@@ -50,6 +50,7 @@ angular.module('ieee.controllers', [])
 		}
 
 		// Various utility variables
+		$scope.answered = false;
 		$scope.settings_shown = false;
 		$scope.toggleSettings = function(){
 			console.log("Woring?");
@@ -127,9 +128,113 @@ angular.module('ieee.controllers', [])
 			"Full Time"
 		];
 
+		$scope.match  = function(student, company){
+			var weight = 0;
+			switch (student.grade){
+				case "Freshman":
+					weight +=  $scope.settings.weights.grade[0];
+					break;
+				case "Sophomore":
+					weight += $scope.settings.weights.grade[1];
+					break;
+				case "Junior":
+					weight +=  $scope.settings.weights.grade[2];
+					break;
+				case "Senior":
+					weight += $scope.settings.weights.grade[3];
+					break;
+				case "Graduate Student":
+					weight += $scope.settings.weights.grade[4];
+					break;
+			}
+
+			for (key in company.majors){
+				if (student.major == company.major[keys]){
+					weight += $scope.settings.weights.major;
+				}
+			}
+
+			if (student.company == company.name){
+				weight += $scope.settings.weights.company;
+			}
+
+			if ((student.grade == "Senior" || student.grade == "Graduate Student") && company.recruiting == "Full Time"){
+				weight += $scope.settings.weights.fulltime;
+			}
+
+			if ((student.grade == "Junior" || student.grade == "Sophomore") && company.recruiting == "Internship"){
+				weight += $scope.settings.weights.intern;
+			}
+
+			return weight;
+		}
+
 		$scope.calculate = function(){
 			$scope.edit = true;
 			console.log("Calculating!");
+			// create the affinity array
+			var affinity = [];
+			$scope.answer = [];
+			$scope.map = [];
+
+			for (var i = 0; i < $scope.students.length; i++){
+				affinity.push([]);
+				$scope.answer.push([]);
+				for (var j = 0; j < $scope.companies.length; j++){
+					//
+					var af = $scope.match($scope.students[i], $scope.companies[j]);
+					try {
+						for (var c = 0; c < $scope.companies[j].number; c++){
+							$scope.map.push($scope.companies[j]);
+							affinity[i].push(af); // reversing the weights
+							$scope.answer[i].push(0);
+						}
+					}
+					catch(e){
+						alert("There's an invalid value!");
+					}
+				}
+			}
+
+			// pad the tables and stuff
+			if (affinity[0].length > affinity.length){
+				for (var i = affinity.length; i < affinity[0].length; i++){
+					affinity.push([]);
+					for (var j = 0; j < affinity[0].length; j++){
+						affinity[i].push(0);
+					}
+				}
+			}
+
+			window.affinity = affinity;
+
+			var env = {
+				students: $scope.students.length,
+				companies: $scope.companies.length,
+				log: function log (message) {
+					console.log('Message from Lua: ' + message);
+				},
+				get_value: function get_value (i, j){
+					return window.affinity[i-1][j-1];
+				},
+				put_value: function put_value(i, j){
+					console.log("Putting value! ", i, j);
+					$scope.answer[i] = j;
+				},
+				show_answer: function show_answer(){
+					console.log("WORKING!");
+					$scope.answered = true;
+					$("#displayanswers")
+					for (var i = 0; i < $scope.students.length; i++){
+						$scope.students[i].finalcompany = $scope.map[$scope.answer[i]];
+					}
+					$scope.$apply();
+				}
+			};
+
+			var vm = new shine.VM(env);
+			var companyCostMatrix = new shine.Table(affinity);
+			vm.load('./lua/hungarian.lua.json');
 		}
 
 		// Still need to put in the saving student information (basically update)

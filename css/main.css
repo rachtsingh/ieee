@@ -82,3 +82,16 @@ li.option-item a {
 	border-radius: 4px;
 	margin-bottom: 15px;
 }
+
+.answer {
+	margin: 15px;
+}
+
+.studentname {
+	font-weight: bold;
+	margin-right: 15px;
+}
+.student-choice-list {
+	list-style-type: none;
+
+}
