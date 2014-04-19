@@ -19,7 +19,7 @@ $.fn.addSliderSegments = function(amount, orientation) {
 	});
 }; 
 /* Controllers */
-angular.module('ieee.controllers', []).controller('SettingsCtrl', [function() {}]).controller('MainCtrl', ['$scope', function($scope) {
+angular.module('ieee.controllers', []).controller('SettingsCtrl', [function() {}]).controller('MainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
 	// "Classes"
 
 	function Student(name) {
@@ -61,8 +61,11 @@ angular.module('ieee.controllers', []).controller('SettingsCtrl', [function() {}
 	}
 	$scope.edit = false; // should be either "student", "company", or false
 	// used by the ng-show to show the relevant editing thing
-	$scope.students = [new Student()];
-	$scope.companies = [new Company()];
+	if ('localStorage' in window){
+		console.log(localStorage["storage"]);
+	}
+	$scope.students = localStorage["students"] || [new Student()];
+	$scope.companies = localStorage["companies"] || [new Company()];
 	$scope.currentstudent = $scope.students[0];
 	$scope.currentcompany = $scope.companies[0];
 
@@ -92,8 +95,16 @@ angular.module('ieee.controllers', []).controller('SettingsCtrl', [function() {}
 		$scope.companies.splice(ind, 1);
 	}
 	// options for students and select boxes
-	$scope.grades = ["Freshman", "Sophomore", "Junior", "Senior"];
-	$scope.majors = ["EE", "CptE", "CptS", "CE", "ME"];
+	$timeout($scope.cacheLocal, 5000);
+
+	$scope.cacheLocal = function(){
+		localStorage["students"] = $scope.students;
+		localStorage["companies"] = $scope.companies;
+		$timeout($scope.cacheLocal, 5000);
+	}
+
+	$scope.grades = ["Freshman", "Sophomore", "Junior", "Senior", "Graduate Student"];
+	$scope.majors = ["EE", "CptE", "CptS", "ChemE", "MechE", "BioE", "MSE"];
 	$scope.foodoptions = ["Beef", "Chicken", "Vegetarian"];
 	// options for the companies and select boxes
 	$scope.recruiting = ["Internship", "Full Time"];
