@@ -11,7 +11,6 @@
     <link href="css/flat-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-2.1.0.min.js"></script>
-    <!-- <script src="js/app.js"></script> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,7 +31,7 @@
           <li class="option-item upload-button"><a class="glyphicon glyphicon-cloud-upload" onclick="document.getElementById('filenode').click()"></a>  Upload</li>
         </ul>
       </div>
-      <input type="file" id="filenode" multiple file-updater style="visibility:hidden"/>
+      <input type="file" id="filenode" multiple file-updater style="visibility:hidden;height:0;width:0"/>
     </div>
     <section id="settings" ng-show="settings_shown">
       <h6>Class Weights</h6>
@@ -55,34 +54,40 @@
         </div>
       </div>
       <div class="setting-row">
-        <div class="setting-label"><span data-toggle="tooltip" title="">Senior </span></div>
+        <div class="setting-label"><span data-toggle="tooltip" title="">Senior</span></div>
         <div class="setting-value">
         <input type="number" ng-model="settings.weights.grade[3]" class="form-control" />
         </div>
       </div>
       <h6>Misc. Weights</h6>
       <div class="setting-row">
-        <div class="setting-label"><span data-toggle="tooltip" title="">Major Weight </span></div>
+        <div class="setting-label"><span data-toggle="tooltip" title="">Major Bonus </span></div>
         <div class="setting-value">
           <input type="number" class="form-control" ng-model="settings.weights.major"/>
         </div>
       </div>
       <div class="setting-row">
-        <div class="setting-label"><span data-toggle="tooltip" title="">Student Preference </span></div>
+        <div class="setting-label"><span data-toggle="tooltip" title="">Student Preference Bonus </span></div>
         <div class="setting-value">
           <input type="number" class="form-control" ng-model="settings.weights.company" />
         </div>
       </div>
       <div class="setting-row">
-        <div class="setting-label"><span data-toggle="tooltip" title="">Fulltime Weight </span></div>
+        <div class="setting-label"><span data-toggle="tooltip" title="">Fulltime Bonus </span></div>
         <div class="setting-value">
           <input type="number" class="form-control" ng-model="settings.weights.fulltime" />
         </div>
       </div>
       <div class="setting-row">
-        <div class="setting-label"><span data-toggle="tooltip" title="">Intern Weight </span></div>
+        <div class="setting-label"><span data-toggle="tooltip" title="">Intern Bonus </span></div>
         <div class="setting-value">
           <input type="number" class="form-control" ng-model="settings.weights.intern" />
+        </div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label"><span data-toggle="tooltip" title="">Repeating Assignment Penalty </span></div>
+        <div class="setting-value">
+          <input type="number" class="form-control" ng-model="settings.weights.repeat" />
         </div>
       </div>
     </section>
@@ -108,7 +113,7 @@
             </div>
             <div class="form-group">
               <label for="phone-number">Phone Number</label>
-              <input type="tel" phone-number class="form-control" id="phone-number" placeholder="Enter phone number" ng-model="currentstudent.phone_number">
+              <input type="tel" class="form-control" id="student-number" placeholder="Enter phone number" ng-model="currentstudent.phone_number">
             </div>
             <div class="form-group">
               <label for="class">Year</label>
@@ -130,7 +135,7 @@
               <select class="beaut-menu" name="student-choice" beautiful-select ng-model="currentstudent.company" ng-options="company.name for company in companies">
               </select>
             </div>
-            <!-- <button type="button" class="btn btn-default" id="student-submit" ng-click="deleteStudent()">Submit</button> -->
+            <!-- <button type="button" class="btn btn-danger" id="student-delete" ng-click="deleteStudent()">Delete</button> -->
           </form>
         </div>
 
@@ -146,8 +151,8 @@
               <input type="number" class="form-control" id="company-number" placeholder="Enter number of attendees" ng-model="currentcompany.number">
             </div>
             <div class="form-group">
-              <label for="company-names">Names (comma separated)</label>
-              <input type="text" class="form-control" id="company-names" placeholder="John Doe, Jane Smith, ..." ng-model="currentcompany.reps">
+              <label for="company-names">Names</label>
+              <input type="text" tag-input class="form-control" id="company-names" placeholder="John Doe, Jane Smith, ..." ng-model="currentcompany.reps">
             </div>
 
             <label for="company-major">Preferred Major</label>
@@ -161,7 +166,7 @@
             <label for="company-type">Recruiting Interest</label>
             <select class="beaut-menu" name="company-type" id="company-type"  multiple="multiple" beautiful-select ng-model="currentcompany.recruiting" ng-options="type for type in recruiting">
             </select>
-           <!--  <button type="button" class="btn btn-default" id="company-submit">Submit</button> -->
+           <!-- <button type="button" class="btn btn-danger" id="company-delete" ng-click="deleteCompany()">Delete</button> -->
           </form>          
         </div>
 
@@ -182,7 +187,7 @@
         </div>
       </div>
       <div class="row" id="submit-row" ng-show="edit != false">
-          <button class="btn btn-success col-xs-12" id="submitbutton" ng-click="calculate()">Calculate!</button>
+          <button class="btn btn-success col-xs-12" id="submitbutton" ng-click="calculate(1)">Calculate!</button>
       </div>
       <div class="answer" id="displayanswers" ng-show="answered">
         <h5>Assignment 1</h5>
@@ -190,6 +195,14 @@
           <li ng-repeat="student in students" class="student-choice">
             <span class="studentname">{{student.name}}</span>
             <span class="companyname">{{student.finalcompany.name}}</span>
+          
+          </li>
+        </ul>
+        <h5>Assignment 2</h5>
+        <ul class="student-choice-list">
+          <li ng-repeat="student in students" class="student-choice">
+            <span class="studentname">{{student.name}}</span>
+            <span class="companyname">{{student.secondcompany.name}}</span>
           
           </li>
         </ul>
