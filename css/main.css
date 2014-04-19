@@ -93,5 +93,12 @@ li.option-item a {
 }
 .student-choice-list {
 	list-style-type: none;
-
+}
+.beaut-menu{
+	display: block;
+	height: 45px;
+	max-width: 220px;
+}
+.beaut-menu ul {
+	width: 100%;
 }

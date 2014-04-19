@@ -29,9 +29,10 @@
         <ul id="options-list">
           <li class="option-item"><a class="fui-gear" ng-click="toggleSettings()"></a></li>
           <li class="option-item"><a class="glyphicon glyphicon-question-sign"></a></li>
-          <li class="option-item upload-button"><a class="glyphicon glyphicon-cloud-upload"></a>  Upload</li>
+          <li class="option-item upload-button"><a class="glyphicon glyphicon-cloud-upload" onclick="document.getElementById('filenode').click()"></a>  Upload</li>
         </ul>
       </div>
+      <input type="file" id="filenode" multiple file-updater style="visibility:hidden"/>
     </div>
     <section id="settings" ng-show="settings_shown">
       <h6>Class Weights</h6>
@@ -107,7 +108,7 @@
             </div>
             <div class="form-group">
               <label for="phone-number">Phone Number</label>
-              <input type="tel" class="form-control" id="phone-number" placeholder="Enter phone number" ng-model="currentstudent.phone_number">
+              <input type="tel" phone-number class="form-control" id="phone-number" placeholder="Enter phone number" ng-model="currentstudent.phone_number">
             </div>
             <div class="form-group">
               <label for="class">Year</label>
@@ -116,17 +117,17 @@
             </div>
             <div class="form-group">
               <label for="major">Major</label>
-              <select class="form-control" name="major" ng-model="currentstudent.major" ng-options="major for major in majors">
+              <select class="beaut-menu" name="major" ng-model="currentstudent.major" beautiful-select ng-options="major for major in majors">
               </select>
             </div>
             <div class="form-group">
               <label for="food">Food</label>
-              <select class="form-control" name="food" ng-model="currentstudent.food" ng-options="food for food in foodoptions">
+              <select class="beaut-menu" name="food" ng-model="currentstudent.food" beautiful-select ng-options="food for food in foodoptions">
               </select>
             </div>
             <div class="form-group">
               <label for="student-choice">Company</label>
-              <select class="form-control" name="student-choice" ng-model="currentstudent.company" ng-options="company.name for company in companies">
+              <select class="beaut-menu" name="student-choice" beautiful-select ng-model="currentstudent.company" ng-options="company.name for company in companies">
               </select>
             </div>
             <!-- <button type="button" class="btn btn-default" id="student-submit" ng-click="deleteStudent()">Submit</button> -->
@@ -150,15 +151,15 @@
             </div>
 
             <label for="company-major">Preferred Major</label>
-            <select class="form-control" name="company-major" id="company-major" ng-model="currentcompany.major" ng-options="major for major in majors">
+            <select class="beaut-menu" name="company-major" id="company-major"  multiple="multiple" beautiful-select ng-model="currentcompany.major" ng-options="major for major in majors">
             </select>
 
             <label for="company-food">Food Preference</label>
-            <select class="form-control" name="company-food" id="company-food" ng-model="currentcompany.food" ng-options="food for food in foodoptions">
+            <select class="beaut-menu" beautiful-select name="company-food" id="company-food" ng-model="currentcompany.food" ng-options="food for food in foodoptions">
             </select>
 
             <label for="company-type">Recruiting Interest</label>
-            <select class="form-control" name="company-type" id="company-type" ng-model="currentcompany.recruiting" ng-options="type for type in recruiting">
+            <select class="beaut-menu" name="company-type" id="company-type"  multiple="multiple" beautiful-select ng-model="currentcompany.recruiting" ng-options="type for type in recruiting">
             </select>
            <!--  <button type="button" class="btn btn-default" id="company-submit">Submit</button> -->
           </form>          
@@ -174,7 +175,7 @@
                 To get started, try clicking on one of the above select boxes to edit an entry, or add new students or companies. 
               </p>
               <p class="welcome">
-              Everything saves automatically! If you'd like to upload a .csv file, try clicking on the cloud icon up above.
+              Everything saves automatically! If you'd like to upload a .csv file, try clicking on the cloud icon up above. Click on the question mark if you need more help!
               </p>
             </div>
           </div>
@@ -192,8 +193,6 @@
           
           </li>
         </ul>
-          
-
       </div>
     </section>
     

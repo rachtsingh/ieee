@@ -44,7 +44,7 @@ angular.module('ieee.controllers', [])
 			this.name = name || 'New Company';
 			this.number = 1;
 			this.reps = ''; // Array of objects with attribute name and food
-			this.major = '';
+			this.majors = '';
 			this.food = '';
 			this.recruiting = "";
 		}
@@ -53,13 +53,12 @@ angular.module('ieee.controllers', [])
 		$scope.answered = false;
 		$scope.settings_shown = false;
 		$scope.toggleSettings = function(){
-			console.log("Woring?");
 			$scope.settings_shown = !($scope.settings_shown);
 		}
 		$scope.settings = {
 			// all user inputted
 			weights: {
-				grade : [0, 0, 0, 0, 0],
+				grade : [1, 2, 7, 4, 0],
 				major : 0,
 				company : 0, // the choice of the student matches
 				fulltime : 0, /* Bonus given for seniors and grads matching full times*/
@@ -207,10 +206,12 @@ angular.module('ieee.controllers', [])
 			}
 
 			window.affinity = affinity;
+			console.log(affinity);
+
 
 			var env = {
-				students: $scope.students.length,
-				companies: $scope.companies.length,
+				students: affinity.length,
+				companies: affinity[0].length,
 				log: function log (message) {
 					console.log('Message from Lua: ' + message);
 				},
@@ -237,6 +238,110 @@ angular.module('ieee.controllers', [])
 			vm.load('./lua/hungarian.lua.json');
 		}
 
+		$scope.CSVToArray = function(strData, strDelimiter ){
+	    	strDelimiter = (strDelimiter || ",");
+	    	var objPattern = new RegExp(
+	    		(
+	    			"(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+	    			"(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+	    			"([^\"\\" + strDelimiter + "\\r\\n]*))"
+	    		),
+	    		"gi"
+	    		);
+	    	var arrData = [[]];
+	    	var arrMatches = null;
+	    	while (arrMatches = objPattern.exec( strData )){
+	    		var strMatchedDelimiter = arrMatches[ 1 ];
+	    		if (
+	    			strMatchedDelimiter.length &&
+	    			(strMatchedDelimiter != strDelimiter)
+	    			){
+	    			arrData.push( [] );
+	    		}
+	    		if (arrMatches[ 2 ]){
+	    			var strMatchedValue = arrMatches[ 2 ].replace(new RegExp( "\"\"", "g" ),"\"");
+	    		} else {
+	    			var strMatchedValue = arrMatches[ 3 ];
+	    		}
+	    		arrData[ arrData.length - 1 ].push( strMatchedValue );
+	    	}
+	    	return( arrData );
+	    }
+
+	    $scope.parseCSV = function(text){
+	    	var array = $scope.CSVToArray(text, ',');
+	    	if (array[0] == 'student'){
+	    		for (var i = 1; i < array.length; i++){
+	    			$scope.parseStudent(array[i]);
+	    		}
+	    	}
+	    	else if (array[0] == 'company'){
+	    		for (var i = 1; i < array.length; i++){
+	    			$scope.parseCompany(array[i]);
+	    		}
+	    	}
+	    }
+
+	    $scope.parseStudent = function(array){
+	    	var stud = new Student;
+	    	stud.name = array[0];
+	    	stud.phone_number = array[1];
+	    	stud.grade = $scope.grades.indexOf(array[2]) == -1 ? '' : array[2];
+	    	stud.major = $scope.majors.indexOf(array[3]) == -1 ? '' : array[3];
+	    	stud.food = $scope.foodoptions.indexOf(array[4]) == -1 ? '' : array[4];
+	    	for (var i = 0; i < $scope.companies.length; i++){
+	    		if (array[5] == $scope.companies[i].name){
+	    			stud.company = $scope.companies[i];
+	    		}
+	    	}
+	    	console.log(stud);
+	    	$scope.students.push(stud);
+	    	$scope.$apply();
+	    }
+
+	    $scope.parseCompany = function(array){
+
+	    }
+
 		// Still need to put in the saving student information (basically update)
 		// the students list with the currentstudent value
-	}]);
+	}])
+.directive('fileUpdater', function() {
+  return {
+    restrict: 'A',
+    link: function($scope, elem, attr) {
+      elem.bind('change', function(e) {
+      	var f = document.getElementById("filenode").files[0];
+      	console.log(f.__proto__ == File.__proto__);
+      	var reader = new FileReader();
+      	reader.onload = function(e){
+      		$scope.parseCSV(reader.result);
+      	}
+      	reader.readAsText(f);
+      });
+    }
+  };
+})
+.directive('beautifulSelect', function() {
+  return {
+    restrict: 'A',
+    link: function($scope, elem, attr) {
+      elem.selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
+    }
+  };
+})
+.directive('phoneNumber', function(){
+   return {
+     require: 'ngModel',
+     link: function(scope, element, attrs, modelCtrl) {
+       modelCtrl.$parsers.push(function (inputValue) {
+       	var re = /(?:\d{3}|\(\d{3}\))([-\/\.])\d{3}\1\d{4}/;
+       	var valid = re.exec(inputValue);
+       	if (!valid){
+       		element.addClass("has-error");
+       	}
+        return inputValue;         
+       });
+     }
+   };
+});

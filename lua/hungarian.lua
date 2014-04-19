@@ -412,7 +412,6 @@ for i = 1,students do
 	end
 end
 answers = hungarian(weights)
-log(printTable(answers))
 for i = 1,students do
 	for j = 1,companies do
 		if (answers[i][j] == 1) then
