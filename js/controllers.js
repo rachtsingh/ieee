@@ -206,8 +206,6 @@ angular.module('ieee.controllers', [])
 			}
 
 			window.affinity = affinity;
-			console.log(affinity);
-
 
 			var env = {
 				students: affinity.length,
