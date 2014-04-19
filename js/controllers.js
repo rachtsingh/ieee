@@ -251,7 +251,18 @@ angular.module('ieee.controllers', []).controller('SettingsCtrl', [function() {}
 		$scope.students.push(stud);
 		$scope.$apply();
 	}
-	$scope.parseCompany = function(array) {}
+	$scope.parseCompany = function(array) {
+		var comp = new Company();
+		comp.name = array[0];
+		comp.recruiting = $scope.recruiting.indexOf(array[1]) == -1 ? '' : array[1];
+		comp.majors = [$scope.majors.indexOf(array[2]) == -1 ? '' : array[2]];
+		comp.number = parseInt(array[3]);
+		comp.reps = array[4];
+		console.log($scope.foodoptions.indexOf(array[5]) == -1 ? '' : array[5]);
+		comp.food = $scope.foodoptions.indexOf(array[5]) == -1 ? '' : array[5];
+		$scope.companies.push(comp);
+		$scope.$apply();
+	}
 	// Still need to put in the saving student information (basically update)
 	// the students list with the currentstudent value
 }])
